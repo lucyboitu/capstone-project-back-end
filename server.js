@@ -7,7 +7,11 @@ const authRoutes = require('./routes/authRoutes');
 const postRoutes = require('./routes/postRoutes');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: 'https://capstone-project-i2af.vercel.app/', 
+  credentials: true,
+}));
+
 app.use(express.json());
 
 // Routes
