@@ -9,18 +9,22 @@ const postRoutes = require('./routes/postRoutes');
 const app = express();
 const cors = require('cors');
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://blog-project-ivory-eight.vercel.app',
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173', // ✅ no trailing slash
+  origin: allowedOrigins,
   credentials: true,
 }));
-app.use(express.json());
-// const cookieParser = require('cookie-parser');
 
-// Routes
+app.use(express.json());
+
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', postRoutes);
 
-// Connect to DB and start server
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     app.listen(process.env.PORT || 8081, () => {
