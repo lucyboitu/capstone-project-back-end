@@ -1,18 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 require('dotenv').config();
+
 
 const authRoutes = require('./routes/authRoutes');
 const postRoutes = require('./routes/postRoutes');
 
 const app = express();
+const cors = require('cors');
+
 app.use(cors({
-  origin: 'https://capstone-project-i2af.vercel.app/', 
+  origin: 'http://localhost:5173', // ✅ no trailing slash
   credentials: true,
 }));
-
 app.use(express.json());
+// const cookieParser = require('cookie-parser');
 
 // Routes
 app.use('/api/auth', authRoutes);

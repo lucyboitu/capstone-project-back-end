@@ -23,6 +23,9 @@ exports.getPost = async (req, res) => {
 
 // Create post
 exports.createPost = async (req, res) => {
+    console.log('BODY:', req.body);
+  console.log('FILE:', req.file);
+  console.log('USER ID:', req.userId);
   const { title, subtitle, content } = req.body;
   try {
     const post = new Post({
@@ -45,7 +48,9 @@ exports.updatePost = async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ error: 'Post not found' });
-    if (post.author.toString() !== req.userId) return res.status(403).json({ error: 'Unauthorized' });
+
+    if (post.author.toString() !== req.userId)
+      return res.status(403).json({ error: 'Unauthorized' });
 
     post.title = title || post.title;
     post.subtitle = subtitle || post.subtitle;

@@ -11,22 +11,16 @@ const {
   deletePost
 } = require('../controllers/postController');
 
-const Post = require('../models/Post'); // ✅ Make sure this path is correct
+const Post = require('../models/Post'); 
 
-// Public routes
 router.get('/', getPosts);
 router.get('/:id', getPost);
-
-// Create post (protected)
 router.post('/', authMiddleware, upload.single('image'), createPost);
-
-// Edit post (any logged-in user)
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) return res.status(404).json({ error: 'Post not found' });
 
-    // ✅ Removed ownership check
     const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(updatedPost);
   } catch (err) {
@@ -34,7 +28,6 @@ router.put('/:id', authMiddleware, async (req, res) => {
   }
 });
 
-// Delete post (any logged-in user)
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     await Post.findByIdAndDelete(req.params.id);
